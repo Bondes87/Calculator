@@ -6,6 +6,7 @@ package com.shpp.dbondarenko;
  */
 public class Calculator {
     private String formula;
+    private double result;
 
     public double calculate(String formula) {
         this.formula = formula;
@@ -13,8 +14,8 @@ public class Calculator {
     }
 
     private double addNumber() {
-        double result = parseNumber();
-        if (formula.length() > 0 && formula.charAt(0) == '+') {
+        result = parseNumber();
+        while (formula.length() > 0 && formula.charAt(0) == '+') {
             formula = formula.substring(1, formula.length());
             result += parseNumber();
         }

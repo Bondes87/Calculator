@@ -7,7 +7,7 @@ package com.shpp.dbondarenko;
 public class Main {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        double result = calculator.calculate("14+14");
+        double result = calculator.calculate("14+14+2");
         System.out.println(result);
     }
 }
