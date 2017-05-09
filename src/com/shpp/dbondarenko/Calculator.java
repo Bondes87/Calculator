@@ -23,14 +23,22 @@ public class Calculator {
     }
 
     private double subtractionNumber() throws Exception {
-        result = parseNumber();
+        result = multiplicationNumber();
         while (formula.length() > 0 && formula.charAt(0) == '-') {
             formula = formula.substring(1, formula.length());
-            result -= parseNumber();
+            result -= multiplicationNumber();
         }
         return result;
     }
 
+    private double multiplicationNumber() throws Exception {
+        result = parseNumber();
+        while (formula.length() > 0 && formula.charAt(0) == '*') {
+            formula = formula.substring(1, formula.length());
+            result *= parseNumber();
+        }
+        return result;
+    }
     private double parseNumber() throws Exception {
         double result;
         int numberOfDigits = 0;
