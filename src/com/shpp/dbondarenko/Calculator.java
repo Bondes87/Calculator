@@ -32,13 +32,23 @@ public class Calculator {
     }
 
     private double multiplicationNumber() throws Exception {
-        result = parseNumber();
+        result = divisionNumber();
         while (formula.length() > 0 && formula.charAt(0) == '*') {
             formula = formula.substring(1, formula.length());
-            result *= parseNumber();
+            result *= divisionNumber();
         }
         return result;
     }
+
+    private double divisionNumber() throws Exception {
+        result = parseNumber();
+        while (formula.length() > 0 && formula.charAt(0) == '/') {
+            formula = formula.substring(1, formula.length());
+            result /= parseNumber();
+        }
+        return result;
+    }
+
     private double parseNumber() throws Exception {
         double result;
         int numberOfDigits = 0;
