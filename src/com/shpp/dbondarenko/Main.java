@@ -7,7 +7,7 @@ package com.shpp.dbondarenko;
 public class Main {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        String formula = "14/1-5*2";
+        String formula = "((2-3*2)*(16))/4";
         double result = 0;
         try {
             result = calculator.calculate(formula);

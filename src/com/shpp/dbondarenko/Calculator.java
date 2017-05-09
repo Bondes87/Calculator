@@ -10,41 +10,54 @@ public class Calculator {
 
     public double calculate(String formula) throws Exception {
         this.formula = formula;
-        return addNumber();
+        return addNumbers();
     }
 
-    private double addNumber() throws Exception {
-        result = subtractionNumber();
+    private double addNumbers() throws Exception {
+        result = subtractionNumbers();
         while (formula.length() > 0 && formula.charAt(0) == '+') {
             formula = formula.substring(1, formula.length());
-            result += subtractionNumber();
+            result += subtractionNumbers();
         }
         return result;
     }
 
-    private double subtractionNumber() throws Exception {
-        result = multiplicationNumber();
+    private double subtractionNumbers() throws Exception {
+        result = multiplicationNumbers();
         while (formula.length() > 0 && formula.charAt(0) == '-') {
             formula = formula.substring(1, formula.length());
-            result -= multiplicationNumber();
+            result -= multiplicationNumbers();
         }
         return result;
     }
 
-    private double multiplicationNumber() throws Exception {
-        result = divisionNumber();
+    private double multiplicationNumbers() throws Exception {
+        result = divisionNumbers();
         while (formula.length() > 0 && formula.charAt(0) == '*') {
             formula = formula.substring(1, formula.length());
-            result *= divisionNumber();
+            result *= divisionNumbers();
         }
         return result;
     }
 
-    private double divisionNumber() throws Exception {
-        result = parseNumber();
+    private double divisionNumbers() throws Exception {
+        result = operationsInBrackets();
         while (formula.length() > 0 && formula.charAt(0) == '/') {
             formula = formula.substring(1, formula.length());
-            result /= parseNumber();
+            result /= operationsInBrackets();
+        }
+        return result;
+    }
+
+    private double operationsInBrackets() throws Exception {
+        if (formula.charAt(0) == '(') {
+            formula = formula.substring(1, formula.length());
+            result = addNumbers();
+            if (formula.charAt(0) == ')') {
+                formula = formula.substring(1, formula.length());
+            }
+        } else {
+            result = parseNumber();
         }
         return result;
     }
@@ -62,7 +75,6 @@ public class Calculator {
         if (numberOfDigits != 0) {
             result = Double.parseDouble(formula.substring(0, numberOfDigits));
             formula = formula.substring(numberOfDigits, formula.length());
-
         } else {
             throw new Exception("Incorrectly written formula");
         }
