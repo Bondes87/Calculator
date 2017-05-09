@@ -7,7 +7,13 @@ package com.shpp.dbondarenko;
 public class Main {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        double result = calculator.calculate("14+14+2");
-        System.out.println(result);
+        String formula = "14-2";
+        double result = 0;
+        try {
+            result = calculator.calculate(formula);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(formula + " = " + result);
     }
 }

@@ -8,21 +8,30 @@ public class Calculator {
     private String formula;
     private double result;
 
-    public double calculate(String formula) {
+    public double calculate(String formula) throws Exception {
         this.formula = formula;
         return addNumber();
     }
 
-    private double addNumber() {
-        result = parseNumber();
+    private double addNumber() throws Exception {
+        result = subtractionNumber();
         while (formula.length() > 0 && formula.charAt(0) == '+') {
             formula = formula.substring(1, formula.length());
-            result += parseNumber();
+            result += subtractionNumber();
         }
         return result;
     }
 
-    private double parseNumber() {
+    private double subtractionNumber() throws Exception {
+        result = parseNumber();
+        while (formula.length() > 0 && formula.charAt(0) == '-') {
+            formula = formula.substring(1, formula.length());
+            result -= parseNumber();
+        }
+        return result;
+    }
+
+    private double parseNumber() throws Exception {
         double result;
         int numberOfDigits = 0;
         for (int i = 0; i < formula.length(); i++) {
@@ -32,9 +41,13 @@ public class Calculator {
                 break;
             }
         }
-        result = Double.parseDouble(formula.substring(0, numberOfDigits));
-        formula = formula.substring(numberOfDigits, formula.length());
+        if (numberOfDigits != 0) {
+            result = Double.parseDouble(formula.substring(0, numberOfDigits));
+            formula = formula.substring(numberOfDigits, formula.length());
+
+        } else {
+            throw new Exception("Incorrectly written formula");
+        }
         return result;
     }
-
 }
