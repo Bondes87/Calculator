@@ -7,13 +7,13 @@ package com.shpp.dbondarenko;
 public class Main {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        String formula = "((2-3*2)*(16))/4";
-        double result = 0;
+        String formula = "-4/-2+5-8";
+        double result;
         try {
             result = calculator.calculate(formula);
+            System.out.println(formula + " = " + result);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(formula + " = " + result);
     }
 }
