@@ -83,14 +83,13 @@ public class Calculator {
             formula = formula.substring(1, formula.length());
         }
         for (int i = 0; i < formula.length(); i++) {
-            if (Character.isDigit(formula.charAt(i)) ||
-                    (formula.charAt(i) == '.' && i != 0 && i != formula.length() - 1)) {
+            if (Character.isDigit(formula.charAt(i)) || formula.charAt(i) == '.') {
                 numberOfDigits++;
             } else {
                 break;
             }
         }
-        if (numberOfDigits != 0) {
+        if (numberOfDigits != 0 && formula.charAt(0) != '.' && formula.charAt(numberOfDigits - 1) != '.') {
             result = Double.parseDouble(formula.substring(0, numberOfDigits));
             System.out.println(result);
             formula = formula.substring(numberOfDigits, formula.length());
