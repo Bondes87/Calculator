@@ -77,21 +77,24 @@ public class Calculator {
     private double parseNumber() throws Exception {
         double result;
         int numberOfDigits = 0;
+        int numberOfPoints = 0;
         boolean isNegativeNumber = false;
         if (formula.charAt(0) == '-') {
             isNegativeNumber = true;
             formula = formula.substring(1, formula.length());
         }
         for (int i = 0; i < formula.length(); i++) {
-            if (Character.isDigit(formula.charAt(i)) || formula.charAt(i) == '.') {
+            if (Character.isDigit(formula.charAt(i))) {
                 numberOfDigits++;
+            } else if (formula.charAt(i) == '.') {
+                numberOfPoints++;
             } else {
                 break;
             }
         }
-        if (numberOfDigits != 0 && formula.charAt(0) != '.' && formula.charAt(numberOfDigits - 1) != '.') {
-            result = Double.parseDouble(formula.substring(0, numberOfDigits));
-            System.out.println(result);
+        if (numberOfDigits != 0 && formula.charAt(0) != '.' && formula.charAt(numberOfDigits+numberOfPoints - 1) != '.'
+                && numberOfPoints < 2) {
+            result = Double.parseDouble(formula.substring(0, numberOfDigits+numberOfPoints));
             formula = formula.substring(numberOfDigits, formula.length());
         } else {
             throw new Exception("Incorrectly written formula");
