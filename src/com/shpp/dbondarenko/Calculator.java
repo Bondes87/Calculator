@@ -83,7 +83,8 @@ public class Calculator {
             formula = formula.substring(1, formula.length());
         }
         for (int i = 0; i < formula.length(); i++) {
-            if ((Character.isDigit(formula.charAt(i)))) {
+            if (Character.isDigit(formula.charAt(i)) ||
+                    (formula.charAt(i) == '.' && i != 0 && i != formula.length() - 1)) {
                 numberOfDigits++;
             } else {
                 break;
@@ -91,6 +92,7 @@ public class Calculator {
         }
         if (numberOfDigits != 0) {
             result = Double.parseDouble(formula.substring(0, numberOfDigits));
+            System.out.println(result);
             formula = formula.substring(numberOfDigits, formula.length());
         } else {
             throw new Exception("Incorrectly written formula");
