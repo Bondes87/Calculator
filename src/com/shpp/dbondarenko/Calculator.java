@@ -62,14 +62,50 @@ public class Calculator {
     }
 
     private double operationsInBrackets() throws Exception {
+        result = calculateOfFunction();
         if (formula.charAt(0) == '(') {
             formula = formula.substring(1, formula.length());
             result = addNumbers();
             if (formula.charAt(0) == ')') {
                 formula = formula.substring(1, formula.length());
             }
-        } else {
+        } else if (Character.isDigit(formula.charAt(0))) {
             result = parseNumber();
+        }
+        return result;
+    }
+
+    private double calculateOfFunction() throws Exception {
+        String nameFunction;
+        int numberOfLetters = 0;
+        for (int i = 0; i < formula.length(); i++) {
+            if (Character.isLetter(formula.charAt(i))) {
+                numberOfLetters++;
+            } else {
+                break;
+            }
+        }
+        if (numberOfLetters > 0) {
+            nameFunction = formula.substring(0, numberOfLetters);
+            formula = formula.substring(numberOfLetters, formula.length());
+            result = selectFunction(nameFunction);
+        }
+
+        return result;
+    }
+
+    private double selectFunction(String nameFunction) throws Exception {
+        result = operationsInBrackets();
+        switch (nameFunction) {
+            case "sqrt":
+                result = Math.sqrt(result);
+                break;
+            case "sin":
+                result = Math.sin(Math.toRadians(result));
+                break;
+            case "cos":
+                result = Math.cos(Math.toRadians(result));
+                break;
         }
         return result;
     }
@@ -92,9 +128,11 @@ public class Calculator {
                 break;
             }
         }
-        if (numberOfDigits != 0 && formula.charAt(0) != '.' && formula.charAt(numberOfDigits+numberOfPoints - 1) != '.'
+        if (numberOfDigits != 0 && formula.charAt(0) != '.'
+                && formula.charAt(numberOfDigits + numberOfPoints - 1) != '.'
                 && numberOfPoints < 2) {
-            result = Double.parseDouble(formula.substring(0, numberOfDigits+numberOfPoints));
+            result = Double.parseDouble(formula.substring(0, numberOfDigits + numberOfPoints));
+            System.out.println(result);
             formula = formula.substring(numberOfDigits, formula.length());
         } else {
             throw new Exception("Incorrectly written formula");
