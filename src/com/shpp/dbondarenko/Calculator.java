@@ -128,6 +128,16 @@ public class Calculator {
                     throw new Exception("Incorrectly written formula. " +
                             "A trigonometric function tg with such a value does not exist.");
                 }
+                break;
+            case "abs":
+                result = Math.abs(result);
+                break;
+            case "log":
+                result = Math.log(result);
+                break;
+            case "exp":
+                result = Math.exp(result);
+                break;
         }
         return result;
     }
