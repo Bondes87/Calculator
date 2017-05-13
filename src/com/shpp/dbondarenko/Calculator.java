@@ -1,5 +1,7 @@
 package com.shpp.dbondarenko;
 
+import java.util.Objects;
+
 /**
  * File: Calculator.java
  * Created by Dmitro Bondarenko on 08.05.2017.
@@ -63,13 +65,13 @@ public class Calculator {
 
     private double operationsInBrackets() throws Exception {
         result = calculateOfFunction();
-        if (formula.charAt(0) == '(') {
+        if (!Objects.equals(formula, "") && formula.charAt(0) == '(') {
             formula = formula.substring(1, formula.length());
             result = addNumbers();
             if (formula.charAt(0) == ')') {
                 formula = formula.substring(1, formula.length());
             }
-        } else if (Character.isDigit(formula.charAt(0))) {
+        } else if (!Objects.equals(formula, "") && Character.isDigit(formula.charAt(0))) {
             result = parseNumber();
         }
         return result;
@@ -98,14 +100,34 @@ public class Calculator {
         result = operationsInBrackets();
         switch (nameFunction) {
             case "sqrt":
-                result = Math.sqrt(result);
+                if (result >= 0) {
+                    result = Math.sqrt(result);
+                } else {
+                    throw new Exception("Incorrectly written formula. " +
+                            "A square root with a negative number does not exist.");
+                }
                 break;
             case "sin":
-                result = Math.sin(Math.toRadians(result));
+                if (result % 180 != 0) {
+                    result = Math.sin(Math.toRadians(result));
+                } else {
+                    result = 0;
+                }
                 break;
             case "cos":
-                result = Math.cos(Math.toRadians(result));
+                if (result % 90 != 0) {
+                    result = Math.cos(Math.toRadians(result));
+                } else {
+                    result = 0;
+                }
                 break;
+            case "tan":
+                if (result % 180 != 90) {
+                    result = Math.tan(Math.toRadians(result));
+                } else {
+                    throw new Exception("Incorrectly written formula. " +
+                            "A trigonometric function tg with such a value does not exist.");
+                }
         }
         return result;
     }

@@ -7,7 +7,7 @@ package com.shpp.dbondarenko;
 public class Main {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        String formula = "8*cos(sqrt(1+8)-3)+1";
+        String formula = "cos(270)";
         double result;
         try {
             result = calculator.calculate(formula);
