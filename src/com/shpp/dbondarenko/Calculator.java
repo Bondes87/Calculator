@@ -138,6 +138,21 @@ public class Calculator {
             case "exp":
                 result = Math.exp(result);
                 break;
+            case "pow":
+                double exponent = 0;
+                if (formula.charAt(0) == ',') {
+                    formula = formula.substring(1, formula.length());
+                    exponent = addNumbers();
+                    formula = formula.substring(1, formula.length());
+                }
+                result = Math.pow(result, exponent);
+                break;
+            case "min":
+                if (formula.charAt(0) == ',') {
+                    formula = formula.substring(1, formula.length());
+                }
+                result = Math.min(result, addNumbers());
+                break;
         }
         return result;
     }

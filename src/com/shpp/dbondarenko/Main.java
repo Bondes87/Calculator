@@ -7,7 +7,7 @@ package com.shpp.dbondarenko;
 public class Main {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        String formula = "exp(1)";
+        String formula = "min(-2,-3)";
         double result;
         try {
             result = calculator.calculate(formula);
