@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Calculator {
     private String formula;
     private double result;
+    private boolean isFunctionHasTwoArguments;
 
     public double calculate(String formula) throws Exception {
         this.formula = formula;
@@ -142,16 +143,28 @@ public class Calculator {
                 double exponent = 0;
                 if (formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
-                    exponent = addNumbers();
+                    exponent = parseNumber();
                     formula = formula.substring(1, formula.length());
                 }
                 result = Math.pow(result, exponent);
                 break;
             case "min":
+                double secondArgument=0;
                 if (formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
+                    secondArgument = parseNumber();
+                    formula = formula.substring(1, formula.length());
                 }
-                result = Math.min(result, addNumbers());
+                result = Math.min(result, secondArgument);
+                break;
+            case "max":
+                secondArgument = 0;
+                if (formula.charAt(0) == ',') {
+                    formula = formula.substring(1, formula.length());
+                    secondArgument = parseNumber();
+                    formula = formula.substring(1, formula.length());
+                }
+                result = Math.max(result, secondArgument);
                 break;
         }
         return result;
