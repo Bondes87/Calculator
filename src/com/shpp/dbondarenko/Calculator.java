@@ -1,5 +1,6 @@
 package com.shpp.dbondarenko;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -7,12 +8,14 @@ import java.util.Objects;
  * Created by Dmitro Bondarenko on 08.05.2017.
  */
 public class Calculator {
+    HashMap<String, Double> variables;
     private String formula;
     private double result;
     private boolean isFunctionHasTwoArguments;
 
-    public double calculate(String formula) throws Exception {
+    public double calculate(String formula, HashMap<String, Double> variables) throws Exception {
         this.formula = formula;
+        this.variables = variables;
         return addNumbers();
     }
 
@@ -88,13 +91,24 @@ public class Calculator {
                 break;
             }
         }
-        if (numberOfLetters > 0) {
+        if (numberOfLetters > 1) {
             nameFunction = formula.substring(0, numberOfLetters);
             formula = formula.substring(numberOfLetters, formula.length());
             result = selectFunction(nameFunction);
+        } else if (numberOfLetters == 1) {
+            String nameVariable = formula.substring(0, numberOfLetters);
+            formula = formula.substring(numberOfLetters, formula.length());
+            result = selectVariable(nameVariable);
         }
 
         return result;
+    }
+
+    private double selectVariable(String nameVariable) throws Exception {
+        if (!variables.containsKey(nameVariable)) {
+            throw new Exception("Incorrectly written formula. Value of variable not found");
+        }
+        return variables.get(nameVariable);
     }
 
     private double selectFunction(String nameFunction) throws Exception {
@@ -140,16 +154,18 @@ public class Calculator {
                 result = Math.exp(result);
                 break;
             case "pow":
+                double base = 0;
                 double exponent = 0;
                 if (formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
+                    base = result;
                     exponent = parseNumber();
                     formula = formula.substring(1, formula.length());
                 }
-                result = Math.pow(result, exponent);
+                result = Math.pow(base, exponent);
                 break;
             case "min":
-                double secondArgument=0;
+                double secondArgument = 0;
                 if (formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
                     secondArgument = parseNumber();
@@ -161,7 +177,7 @@ public class Calculator {
                 secondArgument = 0;
                 if (formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
-                    secondArgument = parseNumber();
+                    secondArgument = addNumbers();
                     formula = formula.substring(1, formula.length());
                 }
                 result = Math.max(result, secondArgument);
