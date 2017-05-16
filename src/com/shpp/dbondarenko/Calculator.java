@@ -16,7 +16,13 @@ public class Calculator {
     public double calculate(String formula, HashMap<String, Double> variables) throws Exception {
         this.formula = formula;
         this.variables = variables;
+        addConstants();
         return addNumbers();
+    }
+
+    private void addConstants() {
+        variables.put("e", 2.71828182846);
+        variables.put("pi", 3.14159265358);
     }
 
     private double addNumbers() throws Exception {
@@ -91,11 +97,11 @@ public class Calculator {
                 break;
             }
         }
-        if (numberOfLetters > 1) {
+        if (numberOfLetters > 2) {
             nameFunction = formula.substring(0, numberOfLetters);
             formula = formula.substring(numberOfLetters, formula.length());
             result = selectFunction(nameFunction);
-        } else if (numberOfLetters == 1) {
+        } else if (numberOfLetters > 0) {
             String nameVariable = formula.substring(0, numberOfLetters);
             formula = formula.substring(numberOfLetters, formula.length());
             result = selectVariable(nameVariable);

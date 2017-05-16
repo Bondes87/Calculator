@@ -17,7 +17,6 @@ public class Main {
                 String[] variableAndValue = args[1].split("=");
                 if (!variableAndValue[0].equals("") && !variableAndValue[1].equals("")) {
                     variables.put(variableAndValue[0], Double.parseDouble(variableAndValue[1]));
-
                 }
             }
         }
