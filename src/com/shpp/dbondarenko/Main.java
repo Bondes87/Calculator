@@ -10,7 +10,6 @@ public class Main {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
         String formula = args[0];
-        System.out.println(args.length);
         HashMap<String, Double> variables = new HashMap<>();
         if (args.length > 1) {
             for (int i = 1; i < args.length; i++) {

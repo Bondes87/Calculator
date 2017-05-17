@@ -77,7 +77,7 @@ public class Calculator {
         if (!Objects.equals(formula, "") && formula.charAt(0) == '(') {
             formula = formula.substring(1, formula.length());
             result = addNumbers();
-            if (formula.charAt(0) == ')') {
+            if (!Objects.equals(formula, "") && formula.charAt(0) == ')') {
                 formula = formula.substring(1, formula.length());
             }
         } else if (!Objects.equals(formula, "") && Character.isDigit(formula.charAt(0))) {
@@ -161,33 +161,42 @@ public class Calculator {
             case "pow":
                 double base = result;
                 double exponent = 0;
-                if (formula.charAt(0) == ',') {
+                if (!Objects.equals(formula, "") && formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
                     result = 0;
                     exponent = addNumbers();
                     formula = formula.substring(1, formula.length());
+                } else {
+                    throw new Exception("Incorrectly written formula. " +
+                            "The second argument of the function is not specified.");
                 }
                 result = Math.pow(base, exponent);
                 break;
             case "min":
                 double firstArgument = result;
                 double secondArgument = 0;
-                if (formula.charAt(0) == ',') {
+                if (!Objects.equals(formula, "") && formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
                     result = 0;
-                    secondArgument = parseNumber();
+                    secondArgument = addNumbers();
                     formula = formula.substring(1, formula.length());
+                } else {
+                    throw new Exception("Incorrectly written formula. " +
+                            "The second argument of the function is not specified.");
                 }
                 result = Math.min(firstArgument, secondArgument);
                 break;
             case "max":
                 firstArgument = result;
                 secondArgument = 0;
-                if (formula.charAt(0) == ',') {
+                if (!Objects.equals(formula, "") && formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
                     result = 0;
                     secondArgument = addNumbers();
                     formula = formula.substring(1, formula.length());
+                } else {
+                    throw new Exception("Incorrectly written formula. " +
+                            "The second argument of the function is not specified.");
                 }
                 result = Math.max(firstArgument, secondArgument);
                 break;
@@ -217,7 +226,6 @@ public class Calculator {
                 && formula.charAt(numberOfDigits + numberOfPoints - 1) != '.'
                 && numberOfPoints < 2) {
             result = Double.parseDouble(formula.substring(0, numberOfDigits + numberOfPoints));
-            System.out.println(result);
             formula = formula.substring(numberOfDigits, formula.length());
         } else {
             throw new Exception("Incorrectly written formula");
