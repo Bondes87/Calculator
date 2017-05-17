@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Calculator {
     private HashMap<String, Double> variables;
     private String formula;
-    private double result;
 
     public double calculate(String formula, HashMap<String, Double> variables) throws Exception {
         this.formula = formula;
@@ -25,7 +24,7 @@ public class Calculator {
     }
 
     private double addNumbers() throws Exception {
-        result = subtractionNumbers();
+        double result = subtractionNumbers();
         while (formula.length() > 0 && formula.charAt(0) == '+') {
             if (isFormulaTwoSignsTogether(formula)) {
                 throw new Exception("Incorrectly written formula. The formula has two signs in a row");
@@ -37,7 +36,7 @@ public class Calculator {
     }
 
     private double subtractionNumbers() throws Exception {
-        result = multiplicationNumbers();
+        double result = multiplicationNumbers();
         while (formula.length() > 0 && formula.charAt(0) == '-') {
             if (isFormulaTwoSignsTogether(formula)) {
                 throw new Exception("Incorrectly written formula. The formula has two signs in a row");
@@ -49,7 +48,7 @@ public class Calculator {
     }
 
     private double multiplicationNumbers() throws Exception {
-        result = divisionNumbers();
+        double result = divisionNumbers();
         while (formula.length() > 0 && formula.charAt(0) == '*') {
             if (isFormulaTwoSignsTogether(formula)) {
                 throw new Exception("Incorrectly written formula. The formula has two signs in a row");
@@ -61,7 +60,7 @@ public class Calculator {
     }
 
     private double divisionNumbers() throws Exception {
-        result = operationsInBrackets();
+        double result = operationsInBrackets();
         while (formula.length() > 0 && formula.charAt(0) == '/') {
             if (isFormulaTwoSignsTogether(formula)) {
                 throw new Exception("Incorrectly written formula. The formula has two signs in a row");
@@ -73,7 +72,7 @@ public class Calculator {
     }
 
     private double operationsInBrackets() throws Exception {
-        result = calculateOfFunction();
+        double result = calculateOfFunction();
         if (!Objects.equals(formula, "") && formula.charAt(0) == '(') {
             formula = formula.substring(1, formula.length());
             result = addNumbers();
@@ -87,17 +86,13 @@ public class Calculator {
     }
 
     private double calculateOfFunction() throws Exception {
-        String nameFunction;
+        double result = 0;
         int numberOfLetters = 0;
-        for (int i = 0; i < formula.length(); i++) {
-            if (Character.isLetter(formula.charAt(i))) {
-                numberOfLetters++;
-            } else {
-                break;
-            }
+        for (int i = 0; i < formula.length() && Character.isLetter(formula.charAt(i)); i++) {
+            numberOfLetters++;
         }
         if (numberOfLetters > 2) {
-            nameFunction = formula.substring(0, numberOfLetters);
+            String nameFunction = formula.substring(0, numberOfLetters);
             formula = formula.substring(numberOfLetters, formula.length());
             result = selectFunction(nameFunction);
         } else if (numberOfLetters > 0) {
@@ -117,7 +112,7 @@ public class Calculator {
     }
 
     private double selectFunction(String nameFunction) throws Exception {
-        result = operationsInBrackets();
+        double result = operationsInBrackets();
         switch (nameFunction) {
             case "sqrt":
                 if (result >= 0) {
@@ -160,48 +155,36 @@ public class Calculator {
                 break;
             case "pow":
                 double base = result;
-                double exponent = 0;
-                if (!Objects.equals(formula, "") && formula.charAt(0) == ',') {
-                    formula = formula.substring(1, formula.length());
-                    result = 0;
-                    exponent = addNumbers();
-                    formula = formula.substring(1, formula.length());
-                } else {
-                    throw new Exception("Incorrectly written formula. " +
-                            "The second argument of the function is not specified.");
-                }
+                double exponent;
+                exponent = getSecondArgumentOfFunction();
                 result = Math.pow(base, exponent);
                 break;
             case "min":
                 double firstArgument = result;
-                double secondArgument = 0;
-                if (!Objects.equals(formula, "") && formula.charAt(0) == ',') {
-                    formula = formula.substring(1, formula.length());
-                    result = 0;
-                    secondArgument = addNumbers();
-                    formula = formula.substring(1, formula.length());
-                } else {
-                    throw new Exception("Incorrectly written formula. " +
-                            "The second argument of the function is not specified.");
-                }
+                double secondArgument;
+                secondArgument = getSecondArgumentOfFunction();
                 result = Math.min(firstArgument, secondArgument);
                 break;
             case "max":
                 firstArgument = result;
-                secondArgument = 0;
-                if (!Objects.equals(formula, "") && formula.charAt(0) == ',') {
-                    formula = formula.substring(1, formula.length());
-                    result = 0;
-                    secondArgument = addNumbers();
-                    formula = formula.substring(1, formula.length());
-                } else {
-                    throw new Exception("Incorrectly written formula. " +
-                            "The second argument of the function is not specified.");
-                }
+                secondArgument = getSecondArgumentOfFunction();
                 result = Math.max(firstArgument, secondArgument);
                 break;
         }
         return result;
+    }
+
+    private double getSecondArgumentOfFunction() throws Exception {
+        double secondArgument;
+        if (!Objects.equals(formula, "") && formula.charAt(0) == ',') {
+            formula = formula.substring(1, formula.length());
+            secondArgument = addNumbers();
+            formula = formula.substring(1, formula.length());
+        } else {
+            throw new Exception("Incorrectly written formula. " +
+                    "The second argument of the function is not specified.");
+        }
+        return secondArgument;
     }
 
     private double parseNumber() throws Exception {
