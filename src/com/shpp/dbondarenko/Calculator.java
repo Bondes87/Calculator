@@ -8,10 +8,9 @@ import java.util.Objects;
  * Created by Dmitro Bondarenko on 08.05.2017.
  */
 public class Calculator {
-    HashMap<String, Double> variables;
+    private HashMap<String, Double> variables;
     private String formula;
     private double result;
-    private boolean isFunctionHasTwoArguments;
 
     public double calculate(String formula, HashMap<String, Double> variables) throws Exception {
         this.formula = formula;
@@ -160,33 +159,37 @@ public class Calculator {
                 result = Math.exp(result);
                 break;
             case "pow":
-                double base = 0;
+                double base = result;
                 double exponent = 0;
                 if (formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
-                    base = result;
-                    exponent = parseNumber();
+                    result = 0;
+                    exponent = addNumbers();
                     formula = formula.substring(1, formula.length());
                 }
                 result = Math.pow(base, exponent);
                 break;
             case "min":
+                double firstArgument = result;
                 double secondArgument = 0;
                 if (formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
+                    result = 0;
                     secondArgument = parseNumber();
                     formula = formula.substring(1, formula.length());
                 }
-                result = Math.min(result, secondArgument);
+                result = Math.min(firstArgument, secondArgument);
                 break;
             case "max":
+                firstArgument = result;
                 secondArgument = 0;
                 if (formula.charAt(0) == ',') {
                     formula = formula.substring(1, formula.length());
+                    result = 0;
                     secondArgument = addNumbers();
                     formula = formula.substring(1, formula.length());
                 }
-                result = Math.max(result, secondArgument);
+                result = Math.max(firstArgument, secondArgument);
                 break;
         }
         return result;
