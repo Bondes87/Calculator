@@ -209,9 +209,9 @@ public class Calculator {
                 && formula.charAt(numberOfDigits + numberOfPoints - 1) != '.'
                 && numberOfPoints < 2) {
             result = Double.parseDouble(formula.substring(0, numberOfDigits + numberOfPoints));
-            formula = formula.substring(numberOfDigits, formula.length());
+            formula = formula.substring(numberOfDigits+numberOfPoints, formula.length());
         } else {
-            throw new Exception("Incorrectly written formula");
+            throw new Exception("Incorrectly written formula. The number entry is invalid.");
         }
         if (isNegativeNumber) {
             result = -result;
