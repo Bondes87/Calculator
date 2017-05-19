@@ -12,6 +12,7 @@ public class Main {
             System.out.println(args[0] + " = " + calculator.calculate(args));
         } catch (Exception e) {
             System.out.println(args[0] + " = " + "\n" + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

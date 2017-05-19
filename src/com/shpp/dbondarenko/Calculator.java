@@ -136,7 +136,7 @@ public class Calculator {
         if (!Objects.equals(formula, "") && formula.charAt(0) == '(') {
             formula = formula.substring(1, formula.length());
             result = addNumbers();
-            if (!Objects.equals(formula, "") && formula.charAt(0) == ')') {
+            if (formula.charAt(0) == ')') {
                 formula = formula.substring(1, formula.length());
             }
         } else if (!Objects.equals(formula, "") && Character.isDigit(formula.charAt(0))) {
@@ -192,6 +192,9 @@ public class Calculator {
      * @return Returns the result of a function.
      */
     private double selectFunction(String nameFunction) throws Exception {
+        if (formula.length() < 3) {
+            throw new Exception("Incorrectly written formula. Function argument is not specified.");
+        }
         double result = operationsInBrackets();
         switch (nameFunction) {
             case "sqrt":
