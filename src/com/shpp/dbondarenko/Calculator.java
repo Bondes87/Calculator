@@ -22,7 +22,11 @@ public class Calculator {
     public double calculate(String[] args) throws Exception {
         formula = args[0];
         parseVariables(args);
-        return addNumbers();
+        double result = addNumbers();
+        if (formula.length() > 0) {
+            throw new Exception("Incorrectly written formula.");
+        }
+        return result;
     }
 
     /**
@@ -34,7 +38,7 @@ public class Calculator {
         variables = new HashMap<>();
         if (args.length > 1) {
             for (int i = 1; i < args.length; i++) {
-                String[] variableAndValue = args[1].split("=");
+                String[] variableAndValue = args[i].split("=");
                 if (!variableAndValue[0].equals("") && !variableAndValue[1].equals("")) {
                     variables.put(variableAndValue[0], Double.parseDouble(variableAndValue[1]));
                 }
@@ -136,11 +140,17 @@ public class Calculator {
         if (!Objects.equals(formula, "") && formula.charAt(0) == '(') {
             formula = formula.substring(1, formula.length());
             result = addNumbers();
+            if (Objects.equals(formula, "")) {
+                throw new Exception("Incorrectly written formula. No closing bracket.");
+            }
             if (formula.charAt(0) == ')') {
                 formula = formula.substring(1, formula.length());
             }
-        } else if (!Objects.equals(formula, "") && Character.isDigit(formula.charAt(0))) {
-            result = parseNumber();
+            //} else if (!Objects.equals(formula, "") && Character.isDigit(formula.charAt(0))) {
+        } else if (!Objects.equals(formula, "")) {
+            if (Character.isDigit(formula.charAt(0)) || formula.charAt(0) == '.') {
+                result = parseNumber();
+            }
         }
         return result;
     }
@@ -195,7 +205,12 @@ public class Calculator {
         if (formula.length() < 3) {
             throw new Exception("Incorrectly written formula. Function argument is not specified.");
         }
-        double result = operationsInBrackets();
+        double result;
+        if (formula.charAt(0) == '(') {
+            result = operationsInBrackets();
+        } else {
+            throw new Exception("Incorrectly written formula. No opening bracket.");
+        }
         switch (nameFunction) {
             case "sqrt":
                 if (result >= 0) {
@@ -237,7 +252,12 @@ public class Calculator {
                 result = Math.abs(result);
                 break;
             case "log":
-                result = Math.log(result);
+                if (result > 0) {
+                    result = Math.log(result);
+                } else {
+                    throw new Exception("Incorrectly written formula. " +
+                            "A logarithmic expression cannot contain a number less than or equal to 0.");
+                }
                 break;
             case "exp":
                 result = Math.exp(result);
@@ -297,6 +317,10 @@ public class Calculator {
         if (formula.charAt(0) == '-') {
             isNegativeNumber = true;
             formula = formula.substring(1, formula.length());
+        }
+        // If the point goes first, then the number is written incorrectly.
+        if (formula.charAt(0) == '.') {
+            throw new Exception("Incorrectly written formula. The number entry is invalid.");
         }
         // Counts how many numbers and dots.
         for (int i = 0; i < formula.length(); i++) {

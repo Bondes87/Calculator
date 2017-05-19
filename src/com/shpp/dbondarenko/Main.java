@@ -9,7 +9,14 @@ public class Main {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
         try {
-            System.out.println(args[0] + " = " + calculator.calculate(args));
+            if (args.length > 1) {
+                System.out.print(args[0] + " = " + calculator.calculate(args) + " ");
+                for (int i = 1; i < args.length; i++) {
+                    System.out.print(args[i] + " ");
+                }
+            } else {
+                System.out.println(args[0] + " = " + calculator.calculate(args));
+            }
         } catch (Exception e) {
             System.out.println(args[0] + " = " + "\n" + e.getMessage());
             e.printStackTrace();
