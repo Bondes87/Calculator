@@ -19,7 +19,6 @@ public class Main {
             }
         } catch (Exception e) {
             System.out.println(args[0] + " = " + "\n" + e.getMessage());
-            e.printStackTrace();
         }
     }
 }
