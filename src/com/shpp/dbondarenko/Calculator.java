@@ -210,18 +210,24 @@ public class Calculator {
                 }
                 break;
             case "cos":
-                if (result % 90 != 0) {
+                if (result % 180 != 90 && result % 180 != -90) {
                     result = Math.cos(Math.toRadians(result));
                 } else {
                     result = 0;
                 }
                 break;
             case "tan":
-                if (result % 180 != 90) {
-                    result = Math.tan(Math.toRadians(result));
+                if (result % 180 != 90 && result % 180 != -90) {
+                    if (result % 180 == 45 || result % 180 == -45) {
+                        result = 1;
+                    } else if (result % 180 == 135 || result % 180 == -135) {
+                        result = -1;
+                    } else {
+                        result = Math.tan(Math.toRadians(result));
+                    }
                 } else {
                     throw new Exception("Incorrectly written formula. " +
-                            "A trigonometric function tg with such a value does not exist.");
+                            "A trigonometric function tan() with such a value does not exist.");
                 }
                 break;
             case "abs":
