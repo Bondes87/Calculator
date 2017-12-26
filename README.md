@@ -11,7 +11,7 @@ Examples of entering formulas:
 
 * (cos(90)*2)+(sin(90)*2)
 
-* (pow(3.1.2*2-2)+sin(90)*6/2+sqrt(45+45+1))*2
+* (pow(3.1,2*2-2)+sin(90)*6/2+sqrt(45+45+1))*2
 
 * pow(pow(pow(pow(pow(3.2),2),2),2),2);
 
